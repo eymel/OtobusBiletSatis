@@ -1,0 +1,13 @@
+﻿@model List<Entity.Schedule>
+
+
+@foreach (var item in Model)
+{
+
+
+    <div class="panel panel-default">
+        <div class="panel-body">@item.Route.Name  Kalkış Saati = @item.ScheduleTime.Time</div>
+    </div>
+
+
+}

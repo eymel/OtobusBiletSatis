@@ -1,0 +1,141 @@
+﻿@using FluentValidation.Results
+@model List<Entity.City>
+@{
+    ViewBag.Title = "SearchSchedule";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="box box-info myTicketSection">
+        <div class="box-header with-border">
+            <h3 class="box-title">Ticket Pay</h3>
+        </div>
+        @if (TempData["success"] != null)
+        {
+            if ((bool)TempData["success"])
+            {
+                <div class="callout callout-success">
+                    <h4>Succesfully</h4>
+                </div>
+
+            }
+            else
+            {
+                <div class="callout callout-danger">
+                    <h4>Failed</h4>
+                </div>
+            }
+        }
+        @if (TempData["error"] != null)
+        {
+            <div class="callout callout-warning">
+                <h4>Warning!</h4>
+                <p>
+                    @foreach (var item in (IList<ValidationFailure>)TempData["error"])
+                {
+                        @item.ErrorMessage;
+                        <br />
+                    }
+                </p>
+            </div>
+        }
+
+
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal">
+
+            <div class="box-body">
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">DepartureCity</label>
+
+                    <div class="col-sm-10">
+                        @Html.DropDownList(
+    "DepartureCity",
+    new SelectList(
+        Model.Select(x => new { Value = x.CityID, Text = x.CityName }),
+        "Value",
+        "Text"
+    ), new { @class = "form-control", @id = "DepartureCity" }
+)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Destiration City</label>
+
+                    <div class="col-sm-10">
+                        @Html.DropDownList(
+    "DestirationCity",
+    new SelectList(
+        Model.Select(x => new { Value = x.CityID, Text = x.CityName }),
+        "Value",
+        "Text"
+    ), new { @class = "form-control", @id = "DestirationCity" }
+)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Departure Date</label>
+
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" name="DepartureTime" id="DepartureTime" class="form-control pull-right" id="datepicker">
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+                <button type="button" class="btn btn-info pull-right search">Ara</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+</div>
+
+<script src="~/Areas/Admin/Content/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script>
+
+
+
+    $('.search').click(function () {
+        debugger;
+        var departureCity = $("#DepartureCity").val();
+        var destirationCity = $("#DestirationCity").val();
+        var departureDate = $("#DepartureTime").val();
+
+
+        var productPanel = $(this).parent().parent();
+
+        debugger;
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("SearchSchedule", "Schedule")',
+            data: { departureCity: departureCity, DestirationCity: destirationCity, DepartureDate:departureDate },
+            datatype: "json",
+            success: function (data) {
+                if (data == false) {
+                    alert("Sefer Bulunamadı");
+                } else {
+                    $(".myTicketSection").html("");
+                    $(".myTicketSection").html(data);
+
+                }
+            },
+            error: function () {
+                alert("hata");
+            }
+        });
+
+    });
+
+
+
+
+</script>

@@ -1,0 +1,25 @@
+﻿@using MyBiletWeb.ScheduleServiceReferences
+@model ScheduleModel[]
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Panel Default
+        </h3>
+    </div>
+    <ul class="list-group">
+        @foreach (var item in Model)
+        {
+            <a href="#" class="list-group-item">@item.RouteName + @item.ScheduleTime</a>
+        }
+
+      
+    </ul>
+</div>
+
+

@@ -1,0 +1,79 @@
+﻿@model Entity.Bus
+@using FluentValidation.Results;
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="col-md-6">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Bus Add</h3>
+        </div>
+        @if (TempData["success"] != null)
+        {
+            if ((bool)TempData["success"])
+            {
+                <div class="callout callout-success">
+                    <h4>Succesfully</h4>       
+                </div>
+
+            }
+            else
+            {
+                <div class="callout callout-danger">
+                    <h4>Failed</h4>
+                </div>
+            }
+        }
+        @if (TempData["error"] != null)
+        {
+            <div class="callout callout-warning">
+                <h4>Warning!</h4>
+                <p>
+                @foreach (var item in (IList<ValidationFailure>)TempData["error"])
+                {
+                    @item.ErrorMessage;
+                    <br />
+                }
+                </p>
+            </div>
+        }
+
+        
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form action="@Url.Action("Add","Bus")" method="post" class="form-horizontal">
+
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Bus Plate</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" name="PlateNumber" class="form-control" id="inputEmail3" placeholder="Plate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Bus Capacity</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" name="Capacity" class="form-control" id="inputPassword3" placeholder="Capacity">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" name="PlateNumber" class="col-sm-2 control-label">Bus Type</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputPassword3" placeholder="Type">
+                    </div>
+                </div>
+             
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+             
+                <button type="submit" class="btn btn-info pull-right">Sign in</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+</div>
